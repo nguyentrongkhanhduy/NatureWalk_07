@@ -10,8 +10,15 @@ import SwiftUI
 @main
 struct Nature_WalkApp: App {
     @State private var user = User()
+    @State private var natureWalkList = NatureWalkList()
     
     private var isRememberUser = UserDefaults.standard.bool(forKey: "isRememberUser")
+    
+    init() {
+        if isRememberUser {
+            
+        }
+    }
     
     var body: some Scene {
         WindowGroup {
@@ -24,7 +31,8 @@ struct Nature_WalkApp: App {
                 }
 
             }
-            .environment(NatureWalkList())
+            .environment(natureWalkList)
+            .environment(user)
         }
     }
 }

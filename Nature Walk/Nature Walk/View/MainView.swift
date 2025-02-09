@@ -54,4 +54,5 @@ struct MainView: View {
 #Preview {
     MainView(userName: "Eddie")
         .environment(NatureWalkList())
+        .environment(User())
 }

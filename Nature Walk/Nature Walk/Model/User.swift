@@ -9,8 +9,13 @@ import Foundation
 import Observation
 
 @Observable
-class User {
-    var username: String = ""
-    var password: String = ""
+class User: Codable {
+    var username: String {
+        return String(email.prefix(while: { char in
+            char != "@"
+        }))
+    }
+    var email: String = "eddie@gmail.com"
+    var password: String = "123123"
     var favourites: [NatureWalk] = []
 }

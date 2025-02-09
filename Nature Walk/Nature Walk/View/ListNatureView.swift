@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ListNatureView: View {
     @Environment(NatureWalkList.self) var natureWalkList
+    @Environment(User.self) var user
     
     @State private var sortBy = "none"
     var label: String {
@@ -61,7 +62,7 @@ struct ListNatureView: View {
         NavigationStack {
             VStack {
                 VStack(alignment: .leading){
-                    Text("Hi, \(userName)")
+                    Text("Hi, \(user.username)")
                     Text("Welcome to Nature Walk!")
                 }
                 .font(Font.custom("DancingScript-Bold", size: 35))
@@ -147,4 +148,5 @@ struct ListNatureView: View {
 #Preview {
     ListNatureView(userName: "Eddie")
         .environment(NatureWalkList())
+        .environment(User())
 }

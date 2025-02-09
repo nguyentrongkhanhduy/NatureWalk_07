@@ -18,7 +18,7 @@ struct DetailView: View {
        
     private func call() {
         if let url = URL(
-            string: "sms://\(natureWalk.host.1.replacingOccurrences(of: " ", with: ""))"
+            string: "sms://\(natureWalk.host.replacingOccurrences(of: " ", with: ""))"
         ), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         } else {

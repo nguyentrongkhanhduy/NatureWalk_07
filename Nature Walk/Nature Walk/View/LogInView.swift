@@ -14,6 +14,10 @@ struct LogInView: View {
     
     @State private var toMainView = false
     
+    @State private var showAlert = false
+    
+    @Environment(User.self) var user
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -31,7 +35,7 @@ struct LogInView: View {
                     .padding(.leading, 20)
                 
                 VStack {
-                    CustomizedTextField(value: $username, label: "Username", isSecure: false)
+                    CustomizedTextField(value: $username, label: "Email", isSecure: false)
                         .padding(.bottom, 15)
                     
                     CustomizedTextField(
@@ -57,9 +61,15 @@ struct LogInView: View {
                     .padding(.top, 10)
                 
                 Button {
-                    toMainView = true
-                    if isRemember {
-                        UserDefaults.standard.set(true, forKey: "isRememberUser")
+                    if username.isEmpty || password.isEmpty {
+                        showAlert = true
+                    } else {
+                        user.email = username
+                        user.password = password
+                        toMainView = true
+                        if isRemember {
+                            UserDefaults.standard.set(true, forKey: "isRememberUser")
+                        }
                     }
                 } label: {
                     Text("Login")
@@ -74,8 +84,13 @@ struct LogInView: View {
                         )
                         .padding()
                 }
-                .padding(.top, 50)
-
+                .padding(.top, 25)
+                .alert("Missing value", isPresented: $showAlert) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text("Please fill all fields.")
+                }
+                
                 
                 Spacer()
             }
@@ -95,4 +110,5 @@ struct LogInView: View {
 #Preview {
     
     LogInView()
+        .environment(User())
 }

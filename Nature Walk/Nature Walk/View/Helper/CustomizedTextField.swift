@@ -18,6 +18,7 @@ struct CustomizedTextField: View {
                 SecureField(label, text: $value)
             } else {
                 TextField(label, text: $value)
+                    .keyboardType(.emailAddress)
             }
         }
         .font(Font.custom("Exo2-Bold", size: 20))

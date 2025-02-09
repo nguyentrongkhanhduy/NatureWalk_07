@@ -17,10 +17,10 @@ struct ListNatureView: View {
             return "Price Low-High"
         case "priceDecrease":
             return "Price High-Low"
-        case "nameIncrease":
-            return "Name A-Z"
-        case "nameDecrease":
-            return "Name Z-A"
+        case "ratingIncrease":
+            return "Rating Low-High"
+        case "ratingDecrease":
+            return "Rating High-Low"
         default:
             return "Default"
         }
@@ -43,13 +43,13 @@ struct ListNatureView: View {
             sortedList = sortedList.sorted(by: { a, b in
                 a.price > b.price
             })
-        case "nameIncrease":
+        case "ratingIncrease":
             sortedList = sortedList.sorted(by: { a, b in
-                a.name < b.name
+                a.rating < b.rating
             })
-        case "nameDecrease":
+        case "ratingDecrease":
             sortedList = sortedList.sorted(by: { a, b in
-                a.name > b.name
+                a.rating > b.rating
             })
         default:
             break
@@ -65,38 +65,54 @@ struct ListNatureView: View {
                     Text("Welcome to Nature Walk!")
                 }
                 .font(Font.custom("DancingScript-Bold", size: 35))
-                .bold()
-                .padding(26)
-                .background(content: {
-                    Rectangle()
-                        .fill(Color(white: 1, opacity: 0.4))
-                        .cornerRadius(10)
-                        .padding(3)
-                })
+                .foregroundColor(Color("bigTextColor"))
+                .padding(.vertical, 20)
+//                .background(content: {
+//                    Rectangle()
+//                        .fill(Color(white: 1, opacity: 0.4))
+//                        .cornerRadius(10)
+//                })
+//                .overlay {
+//                    RoundedRectangle(cornerRadius: 10)
+//                        .stroke(Color("strokeColor"), lineWidth: 2)
+//                }
                 
                 VStack {
                     HStack {
                         Text("Let's begin your adventure!")
                             .font(Font.custom("Exo2-Bold", size: 16))
+                            .foregroundColor(Color("bigTextColor"))
                         Spacer()
                         Menu {
                             Picker(selection: $sortBy) {
                                 Text("Default").tag("none")
                                 Text("Price Low-High").tag("priceIncrease")
                                 Text("Price High-Low").tag("priceDecrease")
-                                Text("Name A-Z").tag("nameIncrease")
-                                Text("Name Z-A").tag("nameDecrease")
+                                Text("Rating Low-High").tag("ratingIncrease")
+                                Text("Rating High-Low").tag("ratingDecrease")
                                 
                             } label: {}
                         } label: {
                             Label(label, systemImage: "arrow.up.arrow.down")
                                 .font(Font.custom("Exo2-Regular", size: 14))
                                 .foregroundColor(Color("rowColor"))
+                                .padding(5)
+                                .background(content: {
+                                    Rectangle()
+                                        .fill(Color(white: 1, opacity: 0.4))
+                                        .cornerRadius(10)
+                                })
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color("strokeColor"), lineWidth: 2)
+                                }
                         }
                         
                             
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.top)
+                    
                     List {
                         ForEach(sortedList) { natureWalk in
                             NavigationLink {
@@ -123,8 +139,11 @@ struct ListNatureView: View {
                     Rectangle()
                         .fill(Color(white: 1, opacity: 0.4))
                         .cornerRadius(10)
-                        .padding(3)
                 })
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color("strokeColor"), lineWidth: 2)
+                }
                 .padding(.horizontal, 8)
                 
                 

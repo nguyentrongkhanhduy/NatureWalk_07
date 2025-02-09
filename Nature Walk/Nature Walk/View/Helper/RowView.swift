@@ -20,8 +20,15 @@ struct RowView: View {
                 .font(Font.custom("Exo2-Bold", size: 15))
             Spacer()
             
-            Text("$\(String(format: "%.2f", natureWalk.price))")
-                .font(Font.custom("Exo2-Regular", size: 15))
+            
+            VStack {
+                Text("$\(String(format: "%.2f", natureWalk.price))")
+                    .font(Font.custom("Exo2-Regular", size: 15))
+                
+                RatingStar(rating: natureWalk.rating)
+                    .scaleEffect(0.5)
+                    .frame(width: 75)
+            }
             
         }
     }

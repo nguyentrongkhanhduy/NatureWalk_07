@@ -15,13 +15,15 @@ struct DetailView: View {
             item.id == natureWalk.id
         }!
     }
-    
-    private func share() {
-        
-    }
-    
+       
     private func call() {
-        
+        if let url = URL(
+            string: "sms://\(natureWalk.host.1.replacingOccurrences(of: " ", with: ""))"
+        ), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        } else {
+            print("false")
+        }
     }
     
     var body: some View {
@@ -73,10 +75,11 @@ struct DetailView: View {
                         Rectangle()
                             .fill(Color(white: 1, opacity: 0.4))
                             .cornerRadius(10)
-                            .padding(3)
                     })
-                    
-                    Divider()
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("strokeColor"), lineWidth: 2)
+                    }
                     
                     VStack(alignment: .leading) {
                         Text("About the trip")
@@ -91,11 +94,11 @@ struct DetailView: View {
                         Rectangle()
                             .fill(Color(white: 1, opacity: 0.4))
                             .cornerRadius(10)
-                            .padding(3)
                     })
-                    
-                    
-                    Divider()
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("strokeColor"), lineWidth: 2)
+                    }
                     
                     VStack {
                         HStack {
@@ -104,6 +107,7 @@ struct DetailView: View {
                             RatingStar(rating: natureWalk.rating)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 5)
                         
                         HStack {
                             Text("Price:")
@@ -118,8 +122,11 @@ struct DetailView: View {
                         Rectangle()
                             .fill(Color(white: 1, opacity: 0.4))
                             .cornerRadius(10)
-                            .padding(3)
                     })
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color("strokeColor"), lineWidth: 2)
+                    }
                 }
                 .padding()
             }
@@ -143,9 +150,7 @@ struct DetailView: View {
                             )
                         }
                         
-                        Button {
-                            share()
-                        } label: {
+                        ShareLink(item: "\(natureWalk.name), $\(String(format: "%.2f", natureWalk.price))") {
                             Label("Share", systemImage: "square.and.arrow.up")
                         }
                         

@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Observation
 
-
+@Observable
 class User {
-    
+    var username: String = ""
+    var password: String = ""
+    var favourites: [NatureWalk] = []
 }

@@ -67,15 +67,6 @@ struct ListNatureView: View {
                 .font(Font.custom("DancingScript-Bold", size: 35))
                 .foregroundColor(Color("bigTextColor"))
                 .padding(.vertical, 20)
-//                .background(content: {
-//                    Rectangle()
-//                        .fill(Color(white: 1, opacity: 0.4))
-//                        .cornerRadius(10)
-//                })
-//                .overlay {
-//                    RoundedRectangle(cornerRadius: 10)
-//                        .stroke(Color("strokeColor"), lineWidth: 2)
-//                }
                 
                 VStack {
                     HStack {
@@ -118,7 +109,7 @@ struct ListNatureView: View {
                             NavigationLink {
                                 DetailView(natureWalk: natureWalk)
                             } label: {
-                                RowView(natureWalk: natureWalk)
+                                RowView(natureWalk: natureWalk) {}
                             }
                             
                         }
@@ -145,21 +136,6 @@ struct ListNatureView: View {
                         .stroke(Color("strokeColor"), lineWidth: 2)
                 }
                 .padding(.horizontal, 8)
-                
-                
-                .toolbar {
-                    
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            
-                        } label: {
-                            Text("Log out")
-                                .bold()
-                                .font(.subheadline)
-                        }
-                    }
-                }
-                
             }
             .background(
                 Color(Color("backgroundColor"))

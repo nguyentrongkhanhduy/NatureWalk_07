@@ -10,76 +10,89 @@ import SwiftUI
 struct LogInView: View {
     @State private var username: String = ""
     @State private var password: String = ""
-    @State private var remember: Bool = false
+    @State private var isRemember: Bool = false
+    
+    @State private var toMainView = false
     
     var body: some View {
-        VStack {
-            Text("Nature Walk")
-                .font(Font.custom("DancingScript-Bold", size: 50))
-                .foregroundColor(Color("bigTextColor"))
-                .padding(.top, 90)
-                .padding(.bottom, 60)
-            
-            
-            Text("Welcome back!")
-                .font(Font.custom("DancingScript-Regular", size: 20))
-                .foregroundColor(Color("bigTextColor"))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 20)
-            
+        NavigationStack {
             VStack {
-                CustomizedTextField(value: $username, label: "Username", isSecure: false)
-                    .padding(.bottom, 15)
+                Text("Nature Walk")
+                    .font(Font.custom("DancingScript-Bold", size: 50))
+                    .foregroundColor(Color("bigTextColor"))
+                    .padding(.top, 90)
+                    .padding(.bottom, 60)
                 
-                CustomizedTextField(
-                    value: $password,
-                    label: "Password",
-                    isSecure: true
-                )
-            }
-            .padding()
-            .background(content: {
-                Rectangle()
-                    .fill(Color(white: 1, opacity: 0.4))
-                    .cornerRadius(10)
-            })
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color("strokeColor"), lineWidth: 2)
-            )
-            .padding(.horizontal)
-            
-            RememberMeButton(rememberMe: $remember)
-                .padding(.leading, 20)
-                .padding(.top, 10)
-            
-            Button {
                 
-            } label: {
-                Text("Login")
-                    .padding()
-                    .foregroundColor(.white)
-                    .font(Font.custom("Exo2-Bold", size: 20))
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        Rectangle()
-                            .fill(Color("bigTextColor"))
-                            .cornerRadius(10)
+                Text("Welcome back!")
+                    .font(Font.custom("DancingScript-Regular", size: 20))
+                    .foregroundColor(Color("bigTextColor"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 20)
+                
+                VStack {
+                    CustomizedTextField(value: $username, label: "Username", isSecure: false)
+                        .padding(.bottom, 15)
+                    
+                    CustomizedTextField(
+                        value: $password,
+                        label: "Password",
+                        isSecure: true
                     )
-                    .padding()
-            }
-            .padding(.top, 50)
+                }
+                .padding()
+                .background(content: {
+                    Rectangle()
+                        .fill(Color(white: 1, opacity: 0.4))
+                        .cornerRadius(10)
+                })
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color("strokeColor"), lineWidth: 2)
+                )
+                .padding(.horizontal)
+                
+                RememberMeButton(rememberMe: $isRemember)
+                    .padding(.leading, 20)
+                    .padding(.top, 10)
+                
+                Button {
+                    toMainView = true
+                    if isRemember {
+                        UserDefaults.standard.set(true, forKey: "isRememberUser")
+                    }
+                } label: {
+                    Text("Login")
+                        .padding()
+                        .foregroundColor(.white)
+                        .font(Font.custom("Exo2-Bold", size: 20))
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            Rectangle()
+                                .fill(Color("bigTextColor"))
+                                .cornerRadius(10)
+                        )
+                        .padding()
+                }
+                .padding(.top, 50)
 
-            
-            Spacer()
+                
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                Color(Color("backgroundColor"))
+            )
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            Color(Color("backgroundColor"))
-        )
+        .navigationDestination(isPresented: $toMainView) {
+            MainView(userName: "Eddie")
+        }
+        .navigationBarBackButtonHidden()
+        .interactiveDismissDisabled()
     }
 }
 
 #Preview {
+    
     LogInView()
 }

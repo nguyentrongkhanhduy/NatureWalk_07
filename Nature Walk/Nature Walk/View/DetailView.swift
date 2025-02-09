@@ -29,14 +29,14 @@ struct DetailView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                Image(natureWalk.photo[1])
-                    .resizable()
-                    .frame(width: .infinity, height: 250)
+                RoundedCornerImage(image: Image(natureWalk.photo[1]))
+                    .frame(height: 250)
+                    .padding(.horizontal)
                 
                 CircleImage(image: Image(natureWalk.photo[0]))
                     .offset(y: -130)
                     .padding(.bottom, -140)
-                    .padding(.leading, -160)
+                    .padding(.leading, -140)
                 
                 VStack(alignment: .leading) {
                     VStack {
@@ -160,6 +160,15 @@ struct DetailView: View {
                             Label(
                                 "Contact provider",
                                 systemImage: "phone"
+                            )
+                        }
+                        
+                        Button {
+                            
+                        } label: {
+                            Label(
+                                "Log out",
+                                systemImage: "rectangle.portrait.and.arrow.forward"
                             )
                         }
                         

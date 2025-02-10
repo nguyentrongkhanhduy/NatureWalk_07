@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct MainView: View {
-    var userName: String
-    
     @State private var toLogin = false
     
     var body: some View {
         NavigationStack {
             TabView {
-                ListNatureView(userName: userName)
+                ListNatureView()
                     .tabItem {
                         Label("Nature Walks", systemImage: "leaf.fill")
                     }
@@ -52,7 +50,7 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(userName: "Eddie")
+    MainView()
         .environment(NatureWalkList())
         .environment(User())
 }

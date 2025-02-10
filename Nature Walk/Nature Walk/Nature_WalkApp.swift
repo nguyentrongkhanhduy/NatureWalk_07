@@ -26,8 +26,7 @@ struct Nature_WalkApp: App {
                 if !isRememberUser {
                     LogInView()
                 } else {
-                    MainView(userName: "Eddie")
-        //                .environment(user)
+                    MainView()
                 }
 
             }

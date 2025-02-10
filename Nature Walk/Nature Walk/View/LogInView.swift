@@ -100,7 +100,7 @@ struct LogInView: View {
             )
         }
         .navigationDestination(isPresented: $toMainView) {
-            MainView(userName: "Eddie")
+            MainView()
         }
         .navigationBarBackButtonHidden()
         .interactiveDismissDisabled()

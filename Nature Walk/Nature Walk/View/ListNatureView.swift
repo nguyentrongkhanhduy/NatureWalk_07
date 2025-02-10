@@ -31,8 +31,6 @@ struct ListNatureView: View {
         return sort(by: sortBy)
     }
     
-    var userName: String
-    
     private func sort(by sortString: String) -> [NatureWalk] {
         var sortedList = natureWalkList.list
         switch sortString {
@@ -100,7 +98,7 @@ struct ListNatureView: View {
                                 }
                         }
                         
-                            
+                        
                     }
                     .padding(.horizontal)
                     .padding(.top)
@@ -110,7 +108,11 @@ struct ListNatureView: View {
                             NavigationLink {
                                 DetailView(natureWalk: natureWalk)
                             } label: {
-                                RowView(natureWalk: natureWalk) {}
+                                RowView(
+                                    natureWalk: natureWalk
+                                ) { natureWalk in
+                                    
+                                }
                             }
                             
                         }
@@ -146,7 +148,7 @@ struct ListNatureView: View {
 }
 
 #Preview {
-    ListNatureView(userName: "Eddie")
+    ListNatureView()
         .environment(NatureWalkList())
         .environment(User())
 }

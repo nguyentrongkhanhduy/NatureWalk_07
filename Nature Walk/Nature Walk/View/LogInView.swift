@@ -15,8 +15,13 @@ struct LogInView: View {
     @State private var toMainView = false
     
     @State private var showAlert = false
+    @State private var showEmailAlert = false
     
     @Environment(User.self) var user
+    
+    private func isValidEmail(email: String) -> Bool {
+        return email.contains("@") && email.contains(".")
+    }
     
     var body: some View {
         NavigationStack {
@@ -64,11 +69,15 @@ struct LogInView: View {
                     if username.isEmpty || password.isEmpty {
                         showAlert = true
                     } else {
-                        user.email = username
-                        user.password = password
-                        toMainView = true
-                        if isRemember {
-                            UserDefaults.standard.set(true, forKey: "isRememberUser")
+                        if !isValidEmail(email: username) {
+                            showEmailAlert = true
+                        } else {
+                            user.email = username
+                            user.password = password
+                            toMainView = true
+                            if isRemember {
+                                UserDefaults.standard.set(true, forKey: "isRememberUser")
+                            }
                         }
                     }
                 } label: {
@@ -90,6 +99,14 @@ struct LogInView: View {
                 } message: {
                     Text("Please fill all fields.")
                 }
+                .alert(
+                    "Invalid email",
+                    isPresented: $showEmailAlert) {
+                        Button("OK", role: .cancel) { }
+                    } message: {
+                        Text("Please enter a correct email address.")
+                    }
+
                 
                 
                 Spacer()

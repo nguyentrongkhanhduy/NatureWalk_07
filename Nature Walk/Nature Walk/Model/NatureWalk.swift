@@ -181,6 +181,21 @@ class NatureWalkList: Codable {
             isFavourite: false
         )
     ]
+    
+    func resetList() {
+        for index in list.indices {
+            list[index].isFavourite = false
+        }
+    }
+    
+    func setFavourites(list: [NatureWalk]) {
+        for item in list {
+            let index = list.firstIndex { thisList in
+                thisList.id == item.id
+            }
+            self.list[index!].isFavourite = true
+        }
+    }
 }
 
 struct NatureWalk: Identifiable, Equatable, Codable {

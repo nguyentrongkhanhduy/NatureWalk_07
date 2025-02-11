@@ -16,7 +16,26 @@ struct Nature_WalkApp: App {
     
     init() {
         if isRememberUser {
-            
+            do {
+                if let recentUserEmail = UserDefaults.standard.string(forKey: "recentUser") {
+                    if let existedUser = UserDefaults.standard.data(
+                        forKey: recentUserEmail
+                    ) {
+                        let decodedUser = try JSONDecoder().decode(
+                            User.self,
+                            from: existedUser
+                        )
+                        natureWalkList.setFavourites(list: decodedUser.favourites)
+                        user
+                            .setUserEmailPassword(
+                                email: decodedUser.email,
+                                password: decodedUser.password
+                            )
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
     

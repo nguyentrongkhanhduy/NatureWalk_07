@@ -8,7 +8,34 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var toLogin = false
+    @Environment(User.self) var user
+    @Environment(NatureWalkList.self) var natureWalkList
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    //navigation
+    @State private var toLogIn = false
+    
+    //alert
+    @State private var logOutAlert = false
+    
+    private var isRememberUser = UserDefaults.standard.bool(forKey: "isRememberUser")
+    
+    private func logOut() {
+        UserDefaults.standard.set(false, forKey: "isRememberUser")
+        do {
+            let encodedData = try JSONEncoder().encode(user)
+            UserDefaults.standard.set(encodedData, forKey: user.email)
+        } catch {
+            print(error.localizedDescription)
+        }
+        natureWalkList.resetList()
+        if !isRememberUser {
+            dismiss()
+        } else {
+            toLogIn = true
+        }
+    }
     
     var body: some View {
         NavigationStack {
@@ -28,23 +55,33 @@ struct MainView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        toLogin = true
-                        UserDefaults.standard.set(false, forKey: "isRememberUser")
+                        logOutAlert = true
                     } label: {
                         Text("Log out")
                             .bold()
                             .font(.subheadline)
                     }
+                    .alert(
+                        "Logout",
+                        isPresented: $logOutAlert) {
+                            Button("No", role: .cancel) { }
+                            Button("Yes", role: .destructive) {
+                                logOut()
+                            }
+                        } message: {
+                            Text("Are you sure you want to logout?")
+                        }
+
+
                 }
             }
             .tint(Color("bigTextColor"))
-            .navigationDestination(isPresented: $toLogin) {
-                LogInView()
-            }
-            .navigationBarBackButtonHidden()
-            .interactiveDismissDisabled()
         }
-        
+        .navigationDestination(isPresented: $toLogIn, destination: {
+            LogInView()
+        })
+        .navigationBarBackButtonHidden()
+        .interactiveDismissDisabled()
     }
     
 }

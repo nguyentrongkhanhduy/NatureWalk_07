@@ -128,4 +128,5 @@ struct LogInView: View {
     
     LogInView()
         .environment(User())
+        .environment(NatureWalkList())
 }

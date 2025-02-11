@@ -15,7 +15,12 @@ class User: Codable {
             char != "@"
         }))
     }
-    var email: String = "eddie@gmail.com"
+    var email: String = "1eddie@123.com"
     var password: String = "123123"
     var favourites: [NatureWalk] = []
+    
+    func setUserEmailPassword(email: String, password: String) {
+        self.email = email
+        self.password = password
+    }
 }

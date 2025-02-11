@@ -162,17 +162,6 @@ struct DetailView: View {
                                 systemImage: "phone"
                             )
                         }
-                        
-                        Button {
-                            
-                        } label: {
-                            Label(
-                                "Log out",
-                                systemImage: "rectangle.portrait.and.arrow.forward"
-                            )
-                        }
-                        
-                        
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease")
                             .foregroundColor(.black)

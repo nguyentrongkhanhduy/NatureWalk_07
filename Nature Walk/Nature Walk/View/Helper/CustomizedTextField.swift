@@ -16,9 +16,11 @@ struct CustomizedTextField: View {
         VStack {
             if isSecure {
                 SecureField(label, text: $value)
+                    .textInputAutocapitalization(.never)
             } else {
                 TextField(label, text: $value)
                     .keyboardType(.emailAddress)
+                    .textInputAutocapitalization(.never)
             }
         }
         .font(Font.custom("Exo2-Bold", size: 20))

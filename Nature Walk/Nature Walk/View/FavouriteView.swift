@@ -13,6 +13,9 @@ struct FavouriteView: View {
     
     @State private var isEditing = false
     
+    //alert
+    @State private var removeAllAlert = false
+    
     @State private var sortBy = "none"
     var label: String {
         switch sortBy {
@@ -95,7 +98,7 @@ struct FavouriteView: View {
                 
                 HStack {
                     Button(action: {
-                        removeAllFavourites()
+                        removeAllAlert = true
                     }, label: {
                         Text("Remove All")
                             .font(Font.custom("Exo2-Regular", size: 14))
@@ -114,6 +117,17 @@ struct FavouriteView: View {
                     .frame(width: isEditing ? nil : 0, height: isEditing ? nil : 0)
                     .opacity(isEditing ? 1 : 0)
                     .animation(.easeInOut(duration: 0.3), value: isEditing)
+                    .alert(
+                        "Remove all",
+                        isPresented: $removeAllAlert) {
+                            Button("No", role: .cancel) {}
+                            Button("Yes", role: .destructive) {
+                                removeAllFavourites()
+                            }
+                        } message: {
+                            Text("Are you sure you want to remove all?")
+                        }
+
                     
                     Button {
                         isEditing.toggle()

@@ -13,6 +13,10 @@ struct FavouriteView: View {
     
     @State private var isEditing = false
     
+    var isEmptyList: Bool {
+        return sortedList.count == 0
+    }
+    
     //alert
     @State private var removeAllAlert = false
     
@@ -82,6 +86,7 @@ struct FavouriteView: View {
             removeFavourite(thisNatureWalk: item)
         }
         getUserFavourites()
+        isEditing = false
     }
 
     var body: some View {
@@ -97,37 +102,38 @@ struct FavouriteView: View {
                 .padding()
                 
                 HStack {
-                    Button(action: {
-                        removeAllAlert = true
-                    }, label: {
-                        Text("Remove All")
-                            .font(Font.custom("Exo2-Regular", size: 14))
-                            .foregroundColor(Color("rowColor"))
-                            .padding(5)
-                            .background {
-                                Rectangle()
-                                    .fill(Color(white: 1, opacity: 0.4))
-                                    .cornerRadius(10)
+                    if !isEmptyList {
+                        Button(action: {
+                            removeAllAlert = true
+                        }, label: {
+                            Text("Remove All")
+                                .font(Font.custom("Exo2-Regular", size: 14))
+                                .foregroundColor(Color("rowColor"))
+                                .padding(5)
+                                .background {
+                                    Rectangle()
+                                        .fill(Color(white: 1, opacity: 0.4))
+                                        .cornerRadius(10)
+                                }
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color("strokeColor"), lineWidth: 2)
+                                }
+                        })
+                        .frame(width: isEditing ? nil : 0, height: isEditing ? nil : 0)
+                        .opacity(isEditing ? 1 : 0)
+                        .animation(.easeInOut(duration: 0.3), value: isEditing)
+                        .alert(
+                            "Remove all",
+                            isPresented: $removeAllAlert) {
+                                Button("No", role: .cancel) {}
+                                Button("Yes", role: .destructive) {
+                                    removeAllFavourites()
+                                }
+                            } message: {
+                                Text("Are you sure you want to remove all?")
                             }
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color("strokeColor"), lineWidth: 2)
-                            }
-                    })
-                    .frame(width: isEditing ? nil : 0, height: isEditing ? nil : 0)
-                    .opacity(isEditing ? 1 : 0)
-                    .animation(.easeInOut(duration: 0.3), value: isEditing)
-                    .alert(
-                        "Remove all",
-                        isPresented: $removeAllAlert) {
-                            Button("No", role: .cancel) {}
-                            Button("Yes", role: .destructive) {
-                                removeAllFavourites()
-                            }
-                        } message: {
-                            Text("Are you sure you want to remove all?")
-                        }
-
+                    }
                     
                     Button {
                         isEditing.toggle()

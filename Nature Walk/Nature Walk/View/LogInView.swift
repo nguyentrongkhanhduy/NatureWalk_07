@@ -27,6 +27,18 @@ struct LogInView: View {
         return email.contains("@") && email.contains(".")
     }
     
+    private func loadSavedCredentials() {
+        let remember = UserDefaults.standard.bool(forKey: "isRememberUser")
+        if remember {
+            textUsername = UserDefaults.standard.string(forKey: "recentUser") ?? ""
+            textPassword = UserDefaults.standard.string(forKey: "recentPassword") ?? ""
+            isRemember = true
+        } else {
+            textUsername = ""
+            textPassword = ""
+        }
+    }
+    
     private func logIn() {
         if textUsername.isEmpty || textPassword.isEmpty {
             showAlert = true
@@ -59,9 +71,13 @@ struct LogInView: View {
                     toMainView = true
                     if isRemember {
                         UserDefaults.standard.set(true, forKey: "isRememberUser")
-                        UserDefaults.standard.set(user.email, forKey: "recentUser")
+                        UserDefaults.standard.set(textUsername, forKey: "recentUser")
+                        UserDefaults.standard.set(textPassword, forKey: "recentPassword")
                     } else {
                         UserDefaults.standard.set(false, forKey: "isRememberUser")
+                        // Optionally remove the saved credentials if not remembered
+                        UserDefaults.standard.removeObject(forKey: "recentUser")
+                        UserDefaults.standard.removeObject(forKey: "recentPassword")
                     }
                 } catch {
                     print(error.localizedDescription)
@@ -152,6 +168,9 @@ struct LogInView: View {
                 Color(Color("backgroundColor"))
             )
             
+        }
+        .onAppear {
+            loadSavedCredentials()
         }
         .navigationDestination(isPresented: $toMainView) {
             MainView()

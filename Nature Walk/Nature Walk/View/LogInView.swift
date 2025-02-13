@@ -8,19 +8,66 @@
 import SwiftUI
 
 struct LogInView: View {
-    @State private var username: String = ""
-    @State private var password: String = ""
+    @State private var textUsername: String = ""
+    @State private var textPassword: String = ""
     @State private var isRemember: Bool = false
     
+    //navigation
     @State private var toMainView = false
     
+    //alert
     @State private var showAlert = false
     @State private var showEmailAlert = false
+    @State private var incorrectPassword = false
     
     @Environment(User.self) var user
+    @Environment(NatureWalkList.self) var natureWalkList
     
     private func isValidEmail(email: String) -> Bool {
         return email.contains("@") && email.contains(".")
+    }
+    
+    private func logIn() {
+        if textUsername.isEmpty || textPassword.isEmpty {
+            showAlert = true
+        } else {
+            if !isValidEmail(email: textUsername) {
+                showEmailAlert = true
+            } else {
+                do {
+                    if let existedUser = UserDefaults.standard.data(
+                        forKey: textUsername
+                    ) {
+                        let decodedUser = try JSONDecoder().decode(
+                            User.self,
+                            from: existedUser
+                        )
+                        if textPassword != decodedUser.password {
+                            incorrectPassword = true
+                            return
+                        } else {
+                            natureWalkList.setFavourites(list: decodedUser.favourites)
+                        }
+                    }
+                    
+                    user
+                        .setUserEmailPassword(
+                            email: textUsername,
+                            password: textPassword
+                        )
+                    
+                    toMainView = true
+                    if isRemember {
+                        UserDefaults.standard.set(true, forKey: "isRememberUser")
+                        UserDefaults.standard.set(user.email, forKey: "recentUser")
+                    } else {
+                        UserDefaults.standard.set(false, forKey: "isRememberUser")
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
     
     var body: some View {
@@ -40,11 +87,11 @@ struct LogInView: View {
                     .padding(.leading, 20)
                 
                 VStack {
-                    CustomizedTextField(value: $username, label: "Email", isSecure: false)
+                    CustomizedTextField(value: $textUsername, label: "Email", isSecure: false)
                         .padding(.bottom, 15)
                     
                     CustomizedTextField(
-                        value: $password,
+                        value: $textPassword,
                         label: "Password",
                         isSecure: true
                     )
@@ -66,20 +113,7 @@ struct LogInView: View {
                     .padding(.top, 10)
                 
                 Button {
-                    if username.isEmpty || password.isEmpty {
-                        showAlert = true
-                    } else {
-                        if !isValidEmail(email: username) {
-                            showEmailAlert = true
-                        } else {
-                            user.email = username
-                            user.password = password
-                            toMainView = true
-                            if isRemember {
-                                UserDefaults.standard.set(true, forKey: "isRememberUser")
-                            }
-                        }
-                    }
+                    logIn()
                 } label: {
                     Text("Login")
                         .padding()
@@ -106,21 +140,24 @@ struct LogInView: View {
                     } message: {
                         Text("Please enter a correct email address.")
                     }
-
-                
-                
+                    .alert(
+                        "Incorrect password",
+                        isPresented: $incorrectPassword) {
+                            Button("OK", role: .cancel) { }
+                        }
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
                 Color(Color("backgroundColor"))
             )
-            .navigationDestination(isPresented: $toMainView) {
-                MainView()
-            }
-            .navigationBarBackButtonHidden()
-            .interactiveDismissDisabled()
+            
         }
+        .navigationDestination(isPresented: $toMainView) {
+            MainView()
+        }
+        .navigationBarBackButtonHidden()
+        .interactiveDismissDisabled()
         
     }
 }

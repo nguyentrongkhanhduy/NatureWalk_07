@@ -35,21 +35,13 @@ struct ListNatureView: View {
         var sortedList = natureWalkList.list
         switch sortString {
         case "priceIncrease":
-            sortedList = sortedList.sorted(by: { a, b in
-                a.price < b.price
-            })
+            sortedList.sort { $0.price < $1.price }
         case "priceDecrease":
-            sortedList = sortedList.sorted(by: { a, b in
-                a.price > b.price
-            })
+            sortedList.sort { $0.price > $1.price }
         case "ratingIncrease":
-            sortedList = sortedList.sorted(by: { a, b in
-                a.rating < b.rating
-            })
+            sortedList.sort { $0.rating < $1.rating }
         case "ratingDecrease":
-            sortedList = sortedList.sorted(by: { a, b in
-                a.rating > b.rating
-            })
+            sortedList.sort { $0.rating > $1.rating }
         default:
             break
         }

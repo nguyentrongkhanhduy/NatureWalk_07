@@ -77,12 +77,13 @@ struct MainView: View {
             }
             .tint(Color("bigTextColor"))
             
-            .navigationDestination(isPresented: $toLogIn, destination: {
-                LogInView()
-            })
-            .navigationBarBackButtonHidden()
-            .interactiveDismissDisabled()
+            
         }
+        .navigationDestination(isPresented: $toLogIn, destination: {
+            LogInView()
+        })
+        .navigationBarBackButtonHidden()
+        .interactiveDismissDisabled()
         
     }
     

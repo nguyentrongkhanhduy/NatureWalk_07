@@ -115,17 +115,17 @@ struct LogInView: View {
             .background(
                 Color(Color("backgroundColor"))
             )
+            .navigationDestination(isPresented: $toMainView) {
+                MainView()
+            }
+            .navigationBarBackButtonHidden()
+            .interactiveDismissDisabled()
         }
-        .navigationDestination(isPresented: $toMainView) {
-            MainView()
-        }
-        .navigationBarBackButtonHidden()
-        .interactiveDismissDisabled()
+        
     }
 }
 
 #Preview {
-    
     LogInView()
         .environment(User())
         .environment(NatureWalkList())

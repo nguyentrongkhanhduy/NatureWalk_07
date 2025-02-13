@@ -30,8 +30,8 @@ struct LogInView: View {
     private func loadSavedCredentials() {
         let remember = UserDefaults.standard.bool(forKey: "isRememberUser")
         if remember {
-            textUsername = UserDefaults.standard.string(forKey: "recentUser") ?? ""
-            textPassword = UserDefaults.standard.string(forKey: "recentPassword") ?? ""
+            textUsername = user.email
+            textPassword = user.password
             isRemember = true
         } else {
             textUsername = ""
@@ -72,12 +72,12 @@ struct LogInView: View {
                     if isRemember {
                         UserDefaults.standard.set(true, forKey: "isRememberUser")
                         UserDefaults.standard.set(textUsername, forKey: "recentUser")
-                        UserDefaults.standard.set(textPassword, forKey: "recentPassword")
+//                        UserDefaults.standard.set(textPassword, forKey: "recentPassword")
                     } else {
                         UserDefaults.standard.set(false, forKey: "isRememberUser")
-                        // Optionally remove the saved credentials if not remembered
-                        UserDefaults.standard.removeObject(forKey: "recentUser")
-                        UserDefaults.standard.removeObject(forKey: "recentPassword")
+//                        // Optionally remove the saved credentials if not remembered
+//                        UserDefaults.standard.removeObject(forKey: "recentUser")
+//                        UserDefaults.standard.removeObject(forKey: "recentPassword")
                     }
                 } catch {
                     print(error.localizedDescription)

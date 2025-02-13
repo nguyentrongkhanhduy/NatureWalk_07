@@ -190,7 +190,7 @@ class NatureWalkList: Codable {
     
     func setFavourites(list: [NatureWalk]) {
         for item in list {
-            let index = list.firstIndex { thisList in
+            let index = self.list.firstIndex { thisList in
                 thisList.id == item.id
             }
             self.list[index!].isFavourite = true

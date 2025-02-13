@@ -77,12 +77,12 @@ struct Nature_WalkApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                if !isRememberUser {
-                    LogInView()
-                } else {
-                    MainView()
-                }
-
+//                if !isRememberUser {
+//                    LogInView()
+//                } else {
+//                    MainView()
+//                }
+                LogInView()
             }
             .environment(natureWalkList)
             .environment(user)

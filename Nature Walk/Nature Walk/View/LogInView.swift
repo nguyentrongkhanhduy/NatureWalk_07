@@ -72,12 +72,8 @@ struct LogInView: View {
                     if isRemember {
                         UserDefaults.standard.set(true, forKey: "isRememberUser")
                         UserDefaults.standard.set(textUsername, forKey: "recentUser")
-//                        UserDefaults.standard.set(textPassword, forKey: "recentPassword")
                     } else {
                         UserDefaults.standard.set(false, forKey: "isRememberUser")
-//                        // Optionally remove the saved credentials if not remembered
-//                        UserDefaults.standard.removeObject(forKey: "recentUser")
-//                        UserDefaults.standard.removeObject(forKey: "recentPassword")
                     }
                 } catch {
                     print(error.localizedDescription)

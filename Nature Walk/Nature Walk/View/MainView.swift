@@ -19,32 +19,17 @@ struct MainView: View {
     //alert
     @State private var logOutAlert = false
     
-    private var isRememberUser = UserDefaults.standard.bool(forKey: "isRememberUser")
-    
     private func logOut() {
-        // Read the current "Remember Me" flag from UserDefaults.
-        let remember = UserDefaults.standard.bool(forKey: "isRememberUser")
-        
-        // If the user did not choose "Remember Me", remove any saved credentials.
-        if !remember {
-            UserDefaults.standard.removeObject(forKey: "recentUser")
-            UserDefaults.standard.removeObject(forKey: "recentPassword")
-        }
-        
-        // Optionally save the user data (e.g., favorites) for later retrieval.
         do {
             let encodedData = try JSONEncoder().encode(user)
-            // Save the encoded user data keyed by the user's email.
             UserDefaults.standard.set(encodedData, forKey: user.email)
         } catch {
             print("Error saving user data: \(error.localizedDescription)")
         }
         
-        // Reset the Nature Walk list.
         natureWalkList.resetList()
         
-        // Navigate back to the login screen.
-        toLogIn = true
+        dismiss()
     }
     
     var body: some View {

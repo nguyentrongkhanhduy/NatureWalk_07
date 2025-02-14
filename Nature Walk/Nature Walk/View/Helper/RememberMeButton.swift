@@ -14,6 +14,7 @@ struct RememberMeButton: View {
         HStack {
             Button {
                 rememberMe.toggle()
+//                UserDefaults.standard.set(rememberMe, forKey: "isRememberUser")//for unexpected close
             } label: {
                 Image(systemName: rememberMe ? "checkmark.square.fill" : "square")
                     .resizable()

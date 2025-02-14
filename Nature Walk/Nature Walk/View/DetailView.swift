@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
+    @Environment(User.self) var user
     @Environment(NatureWalkList.self) var natureWalkList
     var natureWalk: NatureWalk
     var natureWalkIndex: Int {
@@ -58,6 +59,8 @@ struct DetailView: View {
                                 natureWalkList
                                     .list[natureWalkIndex].isFavourite
                                     .toggle()
+                                user.favourites.append(natureWalkList
+                                    .list[natureWalkIndex]) //add to favourite only for app close unexpectedly
                             } label: {
                                 Label(
                                     "Toggle Favorite",
@@ -178,4 +181,5 @@ struct DetailView: View {
 #Preview {
     DetailView(natureWalk: NatureWalkList().list[0])
         .environment(NatureWalkList())
+        .environment(User())
 }
